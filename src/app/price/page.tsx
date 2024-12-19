@@ -1,5 +1,7 @@
 'use client'
 
+import { BackgroundLines } from "@/components/ui/background-lines"
+
 export default function Pricing() {
   const plans = [
     {
@@ -38,7 +40,8 @@ export default function Pricing() {
   ]
 
   return (
-    <div className="flex min-h-screen pt-24 flex-col items-center bg-gradient-to-b from-blue-500 via-indigo-500 to-purple-600 py-16">
+    // <div className="flex min-h-screen pt-24 flex-col items-center bg-gradient-to-b from-blue-500 via-indigo-500 to-purple-600 py-16">
+    <BackgroundLines className="flex items-center justify-center w-full flex-col px-4">
       <div className="text-center">
         <h1 className="text-4xl font-extrabold text-white sm:text-5xl">
           Choose Your Plan
@@ -52,16 +55,16 @@ export default function Pricing() {
         {plans.map((plan) => (
           <div
             key={plan.name}
-            className="rounded-xl bg-white shadow-lg hover:shadow-2xl transition transform hover:scale-105"
+            className="rounded-xl bg-transparent shadow-lg hover:shadow-2xl transition transform hover:scale-105"
           >
             <div className="p-6 text-center">
               <h2 className="text-2xl font-bold text-indigo-600">{plan.name}</h2>
-              <p className="mt-4 text-4xl font-extrabold text-gray-800">{plan.price}</p>
-              <p className="mt-2 text-sm text-gray-500">
+              <p className="mt-4 text-4xl font-extrabold text-gray-300">{plan.price}</p>
+              <p className="mt-2 text-sm text-gray-200">
                 {plan.name === 'Enterprise' ? 'Contact us for custom pricing' : 'per month'}
               </p>
             </div>
-            <ul className="mt-6 space-y-4 px-6 text-gray-600">
+            <ul className="mt-6 space-y-4 px-6 text-gray-400">
               {plan.features.map((feature) => (
                 <li key={feature} className="flex items-center">
                   <span className="mr-3 text-green-500">✓</span>
@@ -84,6 +87,7 @@ export default function Pricing() {
           </div>
         ))}
       </div>
-    </div>
+      </BackgroundLines>
+    // </div>
   )
 }

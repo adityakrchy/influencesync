@@ -10,7 +10,7 @@ export default function DashboardLayout({
   return (
     <div className="min-h-screen bg-gray-50">
       <DashboardHeader />
-      <div className="flex h-[calc(100vh-4rem)]">
+      <div className="flex h-full">
         <DashboardSidebar />
         <main className="flex-1 overflow-y-auto">
           <div className="container mx-auto px-4 py-8">

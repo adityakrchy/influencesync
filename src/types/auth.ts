@@ -21,3 +21,15 @@ export interface RegisterFormData {
   confirmPassword: string;
   role: UserRole;
 }
+
+export interface Influencer {
+  id: string;
+  name: string;
+  image: string;
+  category: string;
+  followers: string;
+  engagement: string;
+  location: string;
+  verified: boolean;
+  tags: string[];
+}

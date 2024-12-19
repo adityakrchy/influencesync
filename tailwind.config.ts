@@ -1,10 +1,19 @@
 import type { Config } from "tailwindcss";
 const svgToDataUri = require("mini-svg-data-uri");
- 
 const colors = require("tailwindcss/colors");
-const {
-  default: flattenColorPalette,
-} = require("tailwindcss/lib/util/flattenColorPalette");
+const flattenColorPalette =
+  require("tailwindcss/lib/util/flattenColorPalette").default;
+
+const addVariablesForColors = ({ addBase, theme }: any) => {
+  let allColors = flattenColorPalette(theme("colors"));
+  let newVars = Object.fromEntries(
+    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
+  );
+
+  addBase({
+    ":root": newVars,
+  });
+};
 
 export default {
   content: [
@@ -21,6 +30,7 @@ export default {
     },
   },
   plugins: [
+    addVariablesForColors,
     function ({ matchUtilities, theme }: any) {
       matchUtilities(
         {

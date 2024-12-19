@@ -6,7 +6,7 @@ import Navbar from '@/components/common/Navbar'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Influence Connect',
+  title: 'Influence Sync',
   description: 'Connect brands with influencers',
 }
 
@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        {/* <Navbar /> */}
+        <Navbar />
         {children}
       </body>
     </html>
