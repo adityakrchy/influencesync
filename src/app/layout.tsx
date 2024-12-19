@@ -1,7 +1,7 @@
 // src/app/layout.tsx
 import { Inter } from 'next/font/google'
 import './globals.css'
-import Navbar from '@/components/common/Navbar'
+import ConditionalNavbarWrapper from '@/components/ConditionalNavbarWrapper'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,8 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navbar />
-        {children}
+        <ConditionalNavbarWrapper>{children}</ConditionalNavbarWrapper>
       </body>
     </html>
   )
