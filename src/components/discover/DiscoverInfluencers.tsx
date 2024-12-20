@@ -19,6 +19,7 @@ import {
     ChevronDown,
     Sliders
 } from 'lucide-react'
+import Link from 'next/link'
 
 const categories = [
     'All Categories',
@@ -132,7 +133,7 @@ export default function DiscoverInfluencers() {
     })
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6 pt-20">
+        <div className="min-h-screen bg-gray-50 p-6">
             {/* Header */}
             <div className="max-w-7xl mx-auto">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
@@ -354,12 +355,16 @@ export default function DiscoverInfluencers() {
 
                                 {/* Actions */}
                                 <div className="mt-6 flex space-x-3">
+                                    <Link href={'/contact'}>
                                     <button className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
                                         Contact
                                     </button>
-                                    <button className="flex-1 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50">
-                                        View Profile
-                                    </button>
+                                    </Link>
+                                    <Link href={`/influencer/${influencer.id}`}>
+                                        <button className="flex-1 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50">
+                                            View Profile
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

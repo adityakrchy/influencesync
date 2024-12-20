@@ -11,7 +11,7 @@ export default function CompanyDashboard() {
   const [timeframe, setTimeframe] = useState('month');
 
   return (
-    <div className="space-y-6 pt-10">
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
