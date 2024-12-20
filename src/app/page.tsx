@@ -8,10 +8,10 @@ import { motion } from 'framer-motion';
 
 export default function Home() {
   return (
-    <main className="pt-14 flex min-h-screen flex-col items-center justify-between bg-gradient-to-b from-blue-50 to-white">
+    <main className="flex min-h-screen flex-col items-center justify-between bg-gradient-to-b from-blue-50 to-white">
       <div className="h-screen w-full rounded-md bg-neutral-950 relative flex flex-col items-center justify-center antialiased">
         {/* Hero Section */}
-        <div className="relative h-screen isolate px-6 pt-14 lg:px-8 z-10">
+        <div className="relative h-screen isolate px-6 lg:px-8 z-10">
           <div className="mx-auto max-w-4xl py-32 sm:py-48 lg:py-56">
             <div className="text-center">
               <motion.h1
