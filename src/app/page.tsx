@@ -1,8 +1,10 @@
+'use client'
 // src/app/page.tsx
 import InfluencerCard from '@/components/InfluencerCard';
 import Link from 'next/link'
 import { popularInfluencers } from './data/influencer';
 import { BackgroundBeams } from '@/components/ui/background-beams';
+import { motion } from 'framer-motion';
 
 export default function Home() {
   return (
@@ -12,13 +14,25 @@ export default function Home() {
         <div className="relative h-screen isolate px-6 pt-14 lg:px-8 z-10">
           <div className="mx-auto max-w-4xl py-32 sm:py-48 lg:py-56">
             <div className="text-center">
-              <h1 className="text-5xl font-extrabold tracking-tight text-gray-300 sm:text-7xl">
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="text-5xl font-extrabold tracking-tight text-gray-300 sm:text-7xl">
                 Connect with Perfect Influencers for Your Brand
-              </h1>
-              <p className="mt-6 text-lg leading-8 text-gray-400 sm:leading-9">
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="mt-6 text-lg leading-8 text-gray-400 sm:leading-9">
                 Streamline your influencer marketing campaigns with our powerful and intuitive platform.
-              </p>
-              <div className="mt-10 flex items-center justify-center gap-x-6">
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="mt-10 flex items-center justify-center gap-x-6">
                 <Link
                   href="/signup"
                   className="rounded-full z-50 bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3 text-lg font-semibold text-white shadow-lg hover:from-blue-500 hover:to-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
@@ -31,7 +45,7 @@ export default function Home() {
                 >
                   Learn More <span aria-hidden="true">→</span>
                 </Link>
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
@@ -114,7 +128,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
     </main>
   )
 }

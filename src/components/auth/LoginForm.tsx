@@ -7,6 +7,7 @@ import { LoginFormData, UserRole } from '@/types/auth'
 
 export default function LoginForm() {
   const router = useRouter()
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState<LoginFormData>({
     email: '',
     password: '',
@@ -33,7 +34,7 @@ export default function LoginForm() {
       }
 
       const data = await response.json()
-      
+
       // Redirect based on role
       switch (formData.role) {
         case 'influencer':
@@ -55,13 +56,13 @@ export default function LoginForm() {
 
   return (
     <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-      <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <div className="bg-gray-300 py-8 px-4 shadow sm:rounded-lg sm:px-10">
         {error && (
           <div className="mb-4 p-2 text-sm text-red-600 bg-red-100 rounded">
             {error}
           </div>
         )}
-        
+
         <form className="space-y-6" onSubmit={handleSubmit}>
           {/* Role Selection */}
           <div>
@@ -75,8 +76,8 @@ export default function LoginForm() {
                   type="button"
                   className={`
                     inline-flex items-center justify-center px-4 py-2 border rounded-md text-sm font-medium
-                    ${formData.role === role 
-                      ? 'border-blue-600 text-blue-600 bg-blue-50' 
+                    ${formData.role === role
+                      ? 'border-blue-600 text-blue-600 bg-blue-50'
                       : 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'
                     }
                   `}
@@ -100,7 +101,7 @@ export default function LoginForm() {
                 type="email"
                 autoComplete="email"
                 required
-                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="appearance-none block w-full px-3 py-2 border text-black border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               />
@@ -116,13 +117,25 @@ export default function LoginForm() {
               <input
                 id="password"
                 name="password"
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 autoComplete="current-password"
                 required
-                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="appearance-none block w-full text-black px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               />
+              <div className="mt-2 flex items-center">
+                <input
+                  id="show-password"
+                  type="checkbox"
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  checked={showPassword}
+                  onChange={() => setShowPassword(!showPassword)}
+                />
+                <label htmlFor="show-password" className="ml-2 block text-sm text-gray-900">
+                  Show Password
+                </label>
+              </div>
             </div>
           </div>
 
