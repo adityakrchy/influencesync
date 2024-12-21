@@ -12,3 +12,337 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+// User model (base for both Company and Influencer)
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String
+  role          UserRole
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  isVerified    Boolean   @default(false)
+  verificationToken String?
+  resetPasswordToken String?
+  resetPasswordExpires DateTime?
+  lastLoginAt   DateTime?
+
+  // Relations
+  company     Company?
+  influencer  Influencer?
+}
+
+enum UserRole {
+  COMPANY
+  INFLUENCER
+  ADMIN
+}
+
+// Company Profile
+model Company {
+  id              String    @id @default(cuid())
+  userId          String    @unique
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name            String
+  logo            String?
+  website         String?
+  industry        String
+  size            CompanySize
+  description     String?
+  location        String?
+  foundedYear     Int?
+  
+  // Social Media Links
+  linkedinUrl     String?
+  twitterUrl      String?
+  instagramUrl    String?
+  facebookUrl     String?
+
+  // Business Details
+  businessType    String?
+  registrationNumber String?
+  taxId           String?
+
+  // Contact Information
+  contactPerson   String
+  contactEmail    String
+  contactPhone    String?
+  
+  // Marketing Details
+  marketingBudget Float?
+  targetAudience  String[]
+  preferredCategories String[]
+
+  // Relations
+  campaigns       Campaign[]
+  favorites       FavoriteInfluencer[]
+  messages        Message[]          @relation("CompanyMessages")
+  reviews         Review[]           @relation("CompanyReviews")
+  notifications   Notification[]     @relation("CompanyNotifications")
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+// Influencer Profile
+model Influencer {
+  id              String    @id @default(cuid())
+  userId          String    @unique
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name            String
+  username        String    @unique
+  avatar          String?
+  bio             String?
+  location        String?
+  
+  // Social Media Profiles
+  instagramHandle String?
+  youtubeChannel  String?
+  tiktokHandle    String?
+  twitterHandle   String?
+  
+  // Professional Details
+  categories      String[]
+  languages       String[]
+  experience      Int?      // Years of experience
+  expertise       String[]
+  
+  // Metrics
+  totalFollowers  Int       @default(0)
+  avgEngagementRate Float   @default(0)
+  audienceDemographics Json?
+  
+  // Content & Pricing
+  contentTypes    String[]
+  postRate        Float?    // Rate per post
+  storyRate       Float?    // Rate per story
+  videoRate       Float?    // Rate per video
+  
+  // Portfolio
+  portfolioItems  PortfolioItem[]
+  
+  // Verification
+  isVerified      Boolean   @default(false)
+  verificationDocuments String[]
+  
+  // Relations
+  campaigns       CampaignInfluencer[]
+  favorites       FavoriteInfluencer[]
+  messages        Message[]          @relation("InfluencerMessages")
+  reviews         Review[]           @relation("InfluencerReviews")
+  notifications   Notification[]     @relation("InfluencerNotifications")
+  earnings        Earning[]
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+// Campaign Management
+model Campaign {
+  id              String    @id @default(cuid())
+  companyId       String
+  company         Company   @relation(fields: [companyId], references: [id])
+  title           String
+  description     String
+  objectives      String[]
+  requirements    String[]
+  budget          Float
+  startDate       DateTime
+  endDate         DateTime
+  status          CampaignStatus
+  
+  // Campaign Details
+  targetAudience  Json?
+  deliverables    String[]
+  guidelines      String?
+  hashtags        String[]
+  
+  // Metrics
+  totalReach      Int       @default(0)
+  engagement      Float     @default(0)
+  impressions     Int       @default(0)
+  
+  // Relations
+  influencers     CampaignInfluencer[]
+  content         CampaignContent[]
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+// Campaign-Influencer Relationship
+model CampaignInfluencer {
+  id              String    @id @default(cuid())
+  campaignId      String
+  campaign        Campaign  @relation(fields: [campaignId], references: [id])
+  influencerId    String
+  influencer      Influencer @relation(fields: [influencerId], references: [id])
+  status          ApplicationStatus
+  proposedRate    Float
+  notes           String?
+  deliverables    String[]
+  submittedContent String[]
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@unique([campaignId, influencerId])
+}
+
+// Portfolio Items
+model PortfolioItem {
+  id              String    @id @default(cuid())
+  influencerId    String
+  influencer      Influencer @relation(fields: [influencerId], references: [id])
+  type            ContentType
+  title           String
+  description     String?
+  mediaUrl        String
+  platform        String
+  metrics         Json?     // Likes, comments, shares, etc.
+  
+  createdAt       DateTime  @default(now())
+}
+
+// Campaign Content
+model CampaignContent {
+  id              String    @id @default(cuid())
+  campaignId      String
+  campaign        Campaign  @relation(fields: [campaignId], references: [id])
+  type            ContentType
+  mediaUrl        String
+  caption         String?
+  status          ContentStatus
+  metrics         Json?
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+// Messaging System
+model Message {
+  id              String    @id @default(cuid())
+  senderId        String
+  receiverId      String
+  content         String
+  isRead          Boolean   @default(false)
+  
+  // Relations for both Company and Influencer
+  company         Company?  @relation("CompanyMessages", fields: [senderId], references: [id])
+  influencer      Influencer? @relation("InfluencerMessages", fields: [receiverId], references: [id])
+  
+  createdAt       DateTime  @default(now())
+}
+
+// Reviews & Ratings
+model Review {
+  id              String    @id @default(cuid())
+  rating          Float
+  comment         String?
+  
+  // Relations for both Company and Influencer
+  companyId       String?
+  company         Company?  @relation("CompanyReviews", fields: [companyId], references: [id])
+  influencerId    String?
+  influencer      Influencer? @relation("InfluencerReviews", fields: [influencerId], references: [id])
+  
+  createdAt       DateTime  @default(now())
+}
+
+// Notifications
+model Notification {
+  id              String    @id @default(cuid())
+  type            NotificationType
+  title           String
+  message         String
+  isRead          Boolean   @default(false)
+  
+  // Relations for both Company and Influencer
+  companyId       String?
+  company         Company?  @relation("CompanyNotifications", fields: [companyId], references: [id])
+  influencerId    String?
+  influencer      Influencer? @relation("InfluencerNotifications", fields: [influencerId], references: [id])
+  
+  createdAt       DateTime  @default(now())
+}
+
+// Earnings Tracking
+model Earning {
+  id              String    @id @default(cuid())
+  influencerId    String
+  influencer      Influencer @relation(fields: [influencerId], references: [id])
+  amount          Float
+  campaignId      String?
+  status          PaymentStatus
+  paymentDate     DateTime?
+  
+  createdAt       DateTime  @default(now())
+}
+
+// Favorites/Bookmarks
+model FavoriteInfluencer {
+  id              String    @id @default(cuid())
+  companyId       String
+  company         Company   @relation(fields: [companyId], references: [id])
+  influencerId    String
+  influencer      Influencer @relation(fields: [influencerId], references: [id])
+  
+  createdAt       DateTime  @default(now())
+
+  @@unique([companyId, influencerId])
+}
+
+// Enums
+enum CompanySize {
+  STARTUP
+  SMALL
+  MEDIUM
+  LARGE
+  ENTERPRISE
+}
+
+enum CampaignStatus {
+  DRAFT
+  ACTIVE
+  PAUSED
+  COMPLETED
+  CANCELLED
+}
+
+enum ApplicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  COMPLETED
+}
+
+enum ContentType {
+  POST
+  STORY
+  VIDEO
+  REEL
+  TIKTOK
+}
+
+enum ContentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  PUBLISHED
+}
+
+enum NotificationType {
+  CAMPAIGN_INVITE
+  APPLICATION_UPDATE
+  MESSAGE
+  PAYMENT
+  SYSTEM
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+

@@ -1,17 +1,18 @@
 // src/app/api/auth/register/route.ts
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { prisma } from '@/lib/prisma'
+import prisma from '@/prisma/index'
 import { hashPassword, generateVerificationToken, sendVerificationEmail } from '@/lib/auth'
 import { registerSchema } from '@/lib/validations/auth'
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    
+    console.log(body)
+
     // Validate input
     const validatedData = registerSchema.parse(body)
-    
+
     // Check if user exists
     const existingUser = await prisma.user.findUnique({
       where: { email: validatedData.email }
@@ -26,7 +27,7 @@ export async function POST(request: NextRequest) {
 
     // Hash password
     const hashedPassword = await hashPassword(validatedData.password)
-    
+
     // Generate verification token
     const verificationToken = await generateVerificationToken()
 
@@ -54,7 +55,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       )
     }
-    
+
     return NextResponse.json(
       { error: 'Registration failed' },
       { status: 500 }

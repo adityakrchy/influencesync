@@ -126,8 +126,8 @@ const App = () => {
                 className="w-full p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
               <input
-                type="text"
-                placeholder="Social Media Handle"
+                type="password"
+                placeholder="Password"
                 className="w-full p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
               <button
