@@ -42,7 +42,7 @@ export default function Pricing() {
   return (
     // <div className="flex min-h-screen pt-24 flex-col items-center bg-gradient-to-b from-blue-500 via-indigo-500 to-purple-600 py-16">
     <BackgroundLines className="flex items-center justify-center w-full flex-col px-4 h-full overflow-none p-4">
-      <div className="text-center">
+      <div className="text-center pt-20">
         <h1 className="text-4xl font-extrabold text-white sm:text-5xl">
           Choose Your Plan
         </h1>

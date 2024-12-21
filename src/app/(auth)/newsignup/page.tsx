@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { gsap } from "gsap";
+import { Separator } from "@/components/ui/separator";
 
 const App = () => {
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -98,6 +99,7 @@ const App = () => {
           </div>
         )}
       </div>
+      {/* <Separator /> */}
 
       {/* Right Section */}
       <div

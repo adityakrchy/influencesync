@@ -1,6 +1,6 @@
 // src/app/(dashboard)/discover/page.tsx
-import DiscoverInfluencers from '@/components/discover/DiscoverInfluencers'
+import DiscoverInfluencers from '@/components/dashboard/company/discover/DiscoverInfluencers'
 
-export default function DiscoverPage() {
+export default function CompanyDiscoverPage() {
   return <DiscoverInfluencers />
 }
