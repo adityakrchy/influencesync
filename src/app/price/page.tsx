@@ -51,7 +51,7 @@ export default function Pricing() {
         </p>
       </div>
 
-      <div className="mt-12 grid gap-8 px-6 sm:grid-cols-1 lg:grid-cols-3 max-w-7xl">
+      <div className="mt-12 grid gap-8 px-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-7xl">
         {plans.map((plan) => (
           <div
             key={plan.name}
@@ -75,11 +75,10 @@ export default function Pricing() {
             <div className="mt-6 mb-6 flex justify-center">
               <a
                 href={plan.link}
-                className={`inline-flex items-center rounded-md px-6 py-3 text-lg font-medium ${
-                  plan.name === 'Pro'
-                    ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:from-indigo-600 hover:to-purple-700'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
+                className={`inline-flex items-center rounded-md px-6 py-3 text-lg font-medium ${plan.name === 'Pro'
+                  ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:from-indigo-600 hover:to-purple-700'
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  }`}
               >
                 {plan.cta}
               </a>
@@ -87,7 +86,6 @@ export default function Pricing() {
           </div>
         ))}
       </div>
-      </BackgroundLines>
-    // </div>
+    </BackgroundLines>
   )
 }
